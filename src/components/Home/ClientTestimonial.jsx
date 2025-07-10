@@ -1,12 +1,11 @@
 import React from "react";
-import "./ClientTestimonial.css";
 import { FaStar, FaQuoteLeft } from "react-icons/fa";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Autoplay } from "swiper/modules";
-
-// Import Swiper styles
+import { Pagination, Autoplay, EffectCoverflow } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
+import "swiper/css/effect-coverflow";
+import "./ClientTestimonial.css";
 
 const testimonials = [
   {
@@ -39,66 +38,87 @@ const testimonials = [
   }
 ];
 
-const ClientTestimonial = () => {
+const ClientTestimonials = () => {
   return (
-    <section className="testimonials-section">
-      <div className="testimonials-container">
-        <div className="testimonials-header">
-          <span className="section-subtitle">Client Feedback</span>
-          <h2 className="section-title">Trusted by Homeowners & Businesses</h2>
-          <div className="divider"></div>
-          <p className="section-description">
+    <section className="clientTestimonials">
+      <div className="clientTestimonials__backgroundPattern" aria-hidden="true"></div>
+      
+      <div className="clientTestimonials__container">
+        <div className="clientTestimonials__header">
+          <span className="clientTestimonials__subtitle">Client Feedback</span>
+          <h2 className="clientTestimonials__title">Trusted by Homeowners & Businesses</h2>
+          <div className="clientTestimonials__divider"></div>
+          <p className="clientTestimonials__description">
             Don't just take our word for it - hear what our satisfied clients have to say about their experience with our services.
           </p>
         </div>
 
-        <div className="testimonials-slider">
+        <div className="clientTestimonials__sliderWrapper">
           <Swiper
-            modules={[Pagination, Autoplay]}
-            spaceBetween={30}
+            modules={[Pagination, Autoplay, EffectCoverflow]}
+            spaceBetween={40}
             slidesPerView={1}
-            pagination={{ clickable: true }}
+            pagination={{ 
+              clickable: true,
+              el: '.clientTestimonials__pagination',
+              type: 'bullets'
+            }}
             autoplay={{
-              delay: 6000,
+              delay: 8000,
               disableOnInteraction: false
+            }}
+            effect="coverflow"
+            grabCursor={true}
+            centeredSlides={true}
+            coverflowEffect={{
+              rotate: 0,
+              stretch: 0,
+              depth: 100,
+              modifier: 2.5,
+              slideShadows: false
             }}
             breakpoints={{
               768: {
-                slidesPerView: 2
+                slidesPerView: 2,
+                effect: "slide"
               },
               1200: {
-                slidesPerView: 3
+                slidesPerView: 3,
+                effect: "slide",
+                spaceBetween: 30
               }
             }}
           >
             {testimonials.map((testimonial, index) => (
               <SwiperSlide key={index}>
-                <div className="testimonial-card">
-                  <div className="testimonial-rating">
+                <div className="clientTestimonials__card">
+                  <div className="clientTestimonials__rating">
                     {[...Array(5)].map((_, i) => (
                       <FaStar 
                         key={i} 
-                        className={i < testimonial.stars ? "star filled" : "star"} 
+                        className={`clientTestimonials__star ${i < testimonial.stars ? 'clientTestimonials__star--filled' : ''}`} 
                       />
                     ))}
                   </div>
-                  <FaQuoteLeft className="quote-icon" />
-                  <p className="testimonial-text">{testimonial.text}</p>
-                  <div className="testimonial-author">
-                    <h4 className="author-name">{testimonial.name}</h4>
-                    <div className="author-details">
-                      <span className="author-role">{testimonial.role}</span>
-                      <span className="author-location">{testimonial.location}</span>
+                  <FaQuoteLeft className="clientTestimonials__quoteIcon" />
+                  <p className="clientTestimonials__text">{testimonial.text}</p>
+                  <div className="clientTestimonials__author">
+                    <h4 className="clientTestimonials__authorName">{testimonial.name}</h4>
+                    <div className="clientTestimonials__authorDetails">
+                      <span className="clientTestimonials__authorRole">{testimonial.role}</span>
+                      <span className="clientTestimonials__authorLocation">{testimonial.location}</span>
                     </div>
                   </div>
+                  <div className="clientTestimonials__cardHover"></div>
                 </div>
               </SwiperSlide>
             ))}
           </Swiper>
+          <div className="clientTestimonials__pagination"></div>
         </div>
       </div>
     </section>
   );
 };
 
-export default ClientTestimonial;
+export default ClientTestimonials;
