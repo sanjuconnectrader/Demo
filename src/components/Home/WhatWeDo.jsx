@@ -3,7 +3,7 @@ import { FaCheckCircle } from "react-icons/fa";
 import "./WhatWeDo.css";
 
 const WhatWeDo = () => {
-  const imgSrc = `${process.env.PUBLIC_URL}/what-we-do.jpg`;
+  const imgSrc = `${process.env.PUBLIC_URL}/what-we-do(1).webp`;
 
   const features = [
     "Real-Time Booking and Service Updates",
