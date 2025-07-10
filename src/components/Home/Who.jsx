@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import "./Who.css";
 
@@ -33,34 +32,16 @@ const Who = () => {
     <section className="who-section">
       <div className="who-container">
         {/* Left: Text + Accordion */}
-        <motion.div 
-          className="who-left"
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
-          <motion.h2 
-            className="who-title"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
+        <div className="who-left">
+          <h2 className="who-title">
             Transform Your Space Into a <span className="highlight">Sanctuary</span>
-          </motion.h2>
+          </h2>
           
-          <motion.p 
-            className="who-description"
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            viewport={{ once: true }}
-          >
+          <p className="who-description">
             We strive to create a fair, low-stress, and empowering workplace for
             our technicians while championing sustainability by reducing carbon
             emissions through advanced green technology and eco-friendly practice.
-          </motion.p>
+          </p>
 
           <div className="who-accordion">
             {accordionItems.map((item, index) => (
@@ -74,49 +55,33 @@ const Who = () => {
                   {activeIndex === index ? <FaMinus /> : <FaPlus />}
                 </div>
                 
-                <AnimatePresence>
-                  {activeIndex === index && (
-                    <motion.div
-                      className="accordion-content"
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: "easeInOut" }}
-                    >
-                      {item.content}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                {activeIndex === index && (
+                  <div className="accordion-content">
+                    {item.content}
+                  </div>
+                )}
               </div>
             ))}
           </div>
 
-          <motion.button 
-            className="who-btn"
-            whileHover={{ 
-              transform: "translateY(-3px)",
-              boxShadow: "0 10px 20px rgba(33, 150, 243, 0.3)"
-            }}
-            whileTap={{ scale: 0.98 }}
-          >
+          <button className="who-btn">
             Learn more
-          </motion.button>
-        </motion.div>
+          </button>
+        </div>
 
         {/* Right: Image */}
-        <motion.div 
-          className="who-right"
-          initial={{ opacity: 0, x: 50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
+        <div className="who-right">
           <div className="image-wrapper">
-            <img src={imgSrc} alt="Professional cleaning team" />
+            <img 
+              src={imgSrc} 
+              alt="Professional cleaning team" 
+              loading="lazy"
+              decoding="async"
+            />
             <div className="image-overlay"></div>
             <div className="image-highlight"></div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

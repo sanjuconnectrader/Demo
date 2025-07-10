@@ -1,5 +1,4 @@
 import React from "react";
-import { motion } from "framer-motion";
 import "./Service.css";
 
 const services = [
@@ -31,65 +30,26 @@ const Service = () => {
     <section className="service-section">
       <div className="service-container">
         <div className="section-header">
-          <motion.span 
-            className="section-label"
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            Our Services
-          </motion.span>
-          
-          <motion.h2 
-            className="section-title"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
+          <span className="section-label">Our Services</span>
+          <h2 className="section-title">
             Premium <span className="highlight">Cleaning</span> Solutions
-          </motion.h2>
-          
-          <motion.p 
-            className="section-subtitle"
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            viewport={{ once: true }}
-          >
+          </h2>
+          <p className="section-subtitle">
             Experience the difference with our professional cleaning services tailored to your needs
-          </motion.p>
+          </p>
         </div>
 
         <div className="service-grid">
           {services.map((service, index) => (
-            <motion.div
-              key={index}
-              className="service-card"
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ 
-                type: "spring", 
-                stiffness: 100,
-                damping: 15,
-                delay: index * 0.1
-              }}
-              viewport={{ once: true, margin: "-50px" }}
-              whileHover={{ y: -10 }}
-            >
-              <motion.div
-                className="service-img-container"
-                whileHover={{ scale: 1.02 }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}
-              >
+            <div key={index} className="service-card">
+              <div className="service-img-container">
                 <div 
                   className="service-img"
                   style={{ backgroundImage: `url(${service.image})` }}
                 />
                 <div className="service-icon">{service.icon}</div>
                 <div className="service-overlay"></div>
-              </motion.div>
+              </div>
               
               <div className="service-content">
                 <h3>{service.title}</h3>
@@ -98,7 +58,7 @@ const Service = () => {
                 <ul className="service-features">
                   {service.features.map((feature, i) => (
                     <li key={i}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                         <path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
                       {feature}
@@ -106,21 +66,14 @@ const Service = () => {
                   ))}
                 </ul>
                 
-                <motion.button 
-                  className="service-btn"
-                  whileHover={{ 
-                    transform: "translateY(-2px)",
-                    boxShadow: "0 10px 20px rgba(33, 150, 243, 0.3)"
-                  }}
-                  whileTap={{ scale: 0.98 }}
-                >
+                <button className="service-btn">
                   <span>Explore Service</span>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                     <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
-                </motion.button>
+                </button>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
