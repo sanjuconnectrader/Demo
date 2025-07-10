@@ -25,50 +25,52 @@ const services = [
   },
 ];
 
-const Service = () => {
+const Services = () => {
   return (
-    <section className="service-section">
-      <div className="service-container">
-        <div className="section-header">
-          <span className="section-label">Our Services</span>
-          <h2 className="section-title">
-            Premium <span className="highlight">Cleaning</span> Solutions
+    <section className="services">
+      <div className="services__container">
+        <div className="services__header">
+          <span className="services__label">Our Services</span>
+          <h2 className="services__title">
+            Premium <span className="services__titleHighlight">Cleaning</span> Solutions
           </h2>
-          <p className="section-subtitle">
+          <p className="services__subtitle">
             Experience the difference with our professional cleaning services tailored to your needs
           </p>
         </div>
 
-        <div className="service-grid">
+        <div className="services__grid">
           {services.map((service, index) => (
-            <div key={index} className="service-card">
-              <div className="service-img-container">
+            <div key={index} className="services__card">
+              <div className="services__imageContainer">
                 <div 
-                  className="service-img"
+                  className="services__image"
                   style={{ backgroundImage: `url(${service.image})` }}
+                  aria-hidden="true"
                 />
-                <div className="service-icon">{service.icon}</div>
-                <div className="service-overlay"></div>
+                <div className="services__icon">{service.icon}</div>
+                <div className="services__imageOverlay"></div>
+                <div className="services__imageShine"></div>
               </div>
               
-              <div className="service-content">
-                <h3>{service.title}</h3>
-                <p className="service-description">{service.description}</p>
+              <div className="services__content">
+                <h3 className="services__cardTitle">{service.title}</h3>
+                <p className="services__cardDescription">{service.description}</p>
                 
-                <ul className="service-features">
+                <ul className="services__features">
                   {service.features.map((feature, i) => (
-                    <li key={i}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <li key={i} className="services__featureItem">
+                      <svg className="services__featureIcon" viewBox="0 0 24 24" aria-hidden="true">
                         <path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
-                      {feature}
+                      <span className="services__featureText">{feature}</span>
                     </li>
                   ))}
                 </ul>
                 
-                <button className="service-btn">
-                  <span>Explore Service</span>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <button className="services__button">
+                  <span className="services__buttonText">Explore Service</span>
+                  <svg className="services__buttonIcon" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </button>
@@ -81,4 +83,4 @@ const Service = () => {
   );
 };
 
-export default Service;
+export default Services;
