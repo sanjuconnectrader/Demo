@@ -2,7 +2,7 @@ import React from 'react';
 import './Header.css';
 
 const Header = () => {
-  const bgImage = `${process.env.PUBLIC_URL}/header-banner.jpg`; // Replace with your image
+  const bgImage = `${process.env.PUBLIC_URL}/header-banner.webp`; // Replace with your image
 
   return (
     <header
