@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaBars, FaTimes, FaArrowRight } from 'react-icons/fa';
+import { motion, AnimatePresence } from 'framer-motion';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -7,20 +8,11 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [activeLink, setActiveLink] = useState('Home');
   const [hoveredLink, setHoveredLink] = useState(null);
-  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener('scroll', handleScroll);
-
-    const checkMobile = () => setIsMobile(window.innerWidth <= 1024);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', checkMobile);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
@@ -32,13 +24,65 @@ const Navbar = () => {
     { name: 'Contact', path: '/contact' },
   ];
 
+  const buttonVariants = {
+    initial: {
+      background: '#2196F3',
+      boxShadow: '#2196F3'
+    },
+    hover: {
+      background: '#2196F3',
+      boxShadow: '#2196F3',
+      scale: 1.03,
+      transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] }
+    },
+    tap: {
+      scale: 0.98,
+      transition: { duration: 0.2 }
+    }
+  };
+
+  const arrowVariants = {
+    hover: {
+      x: 5,
+      transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] }
+    }
+  };
+
+  const linkVariants = {
+    hover: {
+      color: '#000000',
+      transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] }
+    },
+    tap: { scale: 0.95 }
+  };
+
+  const underlineVariants = {
+    hidden: { width: 0 },
+    visible: {
+      width: '100%',
+      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+    }
+  };
+
+  const mobileLinkVariants = {
+    hidden: { x: 30, opacity: 0 },
+    visible: (i) => ({
+      x: 0,
+      opacity: 1,
+      transition: { delay: i * 0.1, duration: 0.4, ease: [0.22, 1, 0.36, 1] }
+    })
+  };
+
   return (
-    <nav className={`navbar ${scrolled ? 'scrolled' : ''} ${isMobile ? 'mobile-view' : ''}`}>
+    <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
       <div className="navbar__container">
         {/* Logo */}
-        <a
+        <motion.a
           href="/"
           className="navbar__logo"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           onClick={() => setActiveLink('Home')}
         >
           <img
@@ -46,7 +90,7 @@ const Navbar = () => {
             alt="Company Logo"
             className="navbar__logo-img"
           />
-        </a>
+        </motion.a>
 
         {/* Desktop Navigation */}
         <div className="navbar__desktop">
@@ -60,61 +104,126 @@ const Navbar = () => {
                   onMouseEnter={() => setHoveredLink(link.name)}
                   onMouseLeave={() => setHoveredLink(null)}
                 >
-                  <span className="navbar__link-text">
+                  <motion.span
+                    variants={linkVariants}
+                    whileHover="hover"
+                    whileTap="tap"
+                  >
                     {link.name}
-                  </span>
+                  </motion.span>
                   {(activeLink === link.name || hoveredLink === link.name) && (
-                    <div className="navbar__link-underline" />
+                    <motion.div
+                      className="navbar__link-underline"
+                      initial="hidden"
+                      animate="visible"
+                      variants={underlineVariants}
+                      layoutId={`underline-${link.name}`}
+                    />
                   )}
                 </a>
               </li>
             ))}
           </ul>
 
-          <button className="btn btn--primary">
+          <motion.button
+            className="btn btn--primary"
+            variants={buttonVariants}
+            initial="initial"
+            whileHover="hover"
+            whileTap="tap"
+          >
             Request an Estimate
-            <span className="btn__icon--right">
-              <FaArrowRight />
-            </span>
-          </button>
+            <motion.span variants={arrowVariants} whileHover="hover">
+              <FaArrowRight className="btn__icon--right" />
+            </motion.span>
+          </motion.button>
         </div>
 
         {/* Mobile Menu Toggle */}
-        <button
+        <motion.button
           className="navbar__toggle"
           onClick={toggleMenu}
           aria-label="Toggle menu"
+          whileTap={{ scale: 0.9 }}
         >
-          {menuOpen ? <FaTimes /> : <FaBars />}
-        </button>
+          {menuOpen ? (
+            <motion.div
+              initial={{ rotate: 0 }}
+              animate={{ rotate: 180 }}
+              transition={{ duration: 0.3 }}
+            >
+              <FaTimes />
+            </motion.div>
+          ) : (
+            <FaBars />
+          )}
+        </motion.button>
 
         {/* Mobile Menu */}
-        <div className={`navbar__mobile-overlay ${menuOpen ? 'open' : ''}`} onClick={toggleMenu} />
-        <div className={`navbar__mobile-menu ${menuOpen ? 'open' : ''}`}>
-          <div className="navbar__mobile-content">
-            <ul className="navbar__mobile-links">
-              {navLinks.map((link, i) => (
-                <li key={link.name} style={{ transitionDelay: `${i * 0.1}s` }}>
-                  <a
-                    href={link.path}
-                    className={`navbar__mobile-link ${activeLink === link.name ? 'active' : ''}`}
-                    onClick={() => {
-                      setActiveLink(link.name);
-                      setMenuOpen(false);
-                    }}
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
+        <AnimatePresence>
+          {menuOpen && (
+            <>
+              <motion.div
+                className="navbar__mobile-overlay"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={toggleMenu}
+              />
+              <motion.div
+                className="navbar__mobile-menu"
+                initial={{ x: '100%' }}
+                animate={{ x: 0 }}
+                exit={{ x: '100%' }}
+                transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              >
+                <div className="navbar__mobile-content">
+                  <ul className="navbar__mobile-links">
+                    {navLinks.map((link, i) => (
+                      <motion.li
+                        key={link.name}
+                        custom={i}
+                        variants={mobileLinkVariants}
+                        initial="hidden"
+                        animate="visible"
+                      >
+                        <a
+                          href={link.path}
+                          className={`navbar__mobile-link ${activeLink === link.name ? 'active' : ''}`}
+                          onClick={() => {
+                            setActiveLink(link.name);
+                            setMenuOpen(false);
+                          }}
+                        >
+                          {link.name}
+                        </a>
+                      </motion.li>
+                    ))}
+                  </ul>
 
-            <button className="btn btn--primary navbar__mobile-btn">
-              Request an Estimate
-              <FaArrowRight className="btn__icon--right" />
-            </button>
-          </div>
-        </div>
+                  {/* ✅ Fixed: Button animation conflict resolved */}
+                  <motion.div
+                    custom={navLinks.length}
+                    variants={mobileLinkVariants}
+                    initial="hidden"
+                    animate="visible"
+                  >
+                    <motion.button
+                      className="btn btn--primary navbar__mobile-btn"
+                      variants={buttonVariants}
+                      initial="initial"
+                      whileHover="hover"
+                      whileTap="tap"
+                    >
+                      Request an Estimate
+                      <FaArrowRight className="btn__icon--right" />
+                    </motion.button>
+                  </motion.div>
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
       </div>
     </nav>
   );
