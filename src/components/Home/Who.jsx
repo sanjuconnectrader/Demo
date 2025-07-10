@@ -29,58 +29,79 @@ const Who = () => {
   };
 
   return (
-    <section className="who-section">
-      <div className="who-container">
-        {/* Left: Text + Accordion */}
-        <div className="who-left">
-          <h2 className="who-title">
-            Transform Your Space Into a <span className="highlight">Sanctuary</span>
+    <section className="whoWeAre">
+      <div className="whoWeAre__backgroundPattern" aria-hidden="true"></div>
+      
+      <div className="whoWeAre__container">
+        {/* Content Section */}
+        <div className="whoWeAre__content">
+          <h2 className="whoWeAre__title">
+            Transform Your Space Into a <span className="whoWeAre__titleHighlight">Sanctuary</span>
           </h2>
           
-          <p className="who-description">
+          <p className="whoWeAre__description">
             We strive to create a fair, low-stress, and empowering workplace for
             our technicians while championing sustainability by reducing carbon
             emissions through advanced green technology and eco-friendly practice.
           </p>
 
-          <div className="who-accordion">
+          <div className="whoWeAre__accordion">
             {accordionItems.map((item, index) => (
               <div
-                className={`accordion-item ${activeIndex === index ? "active" : ""}`}
+                className={`whoWeAre__accordionItem ${activeIndex === index ? 'whoWeAre__accordionItem--active' : ''}`}
                 key={index}
-                onClick={() => toggleAccordion(index)}
               >
-                <div className="accordion-header">
-                  <span>{item.title}</span>
-                  {activeIndex === index ? <FaMinus /> : <FaPlus />}
-                </div>
+                <button 
+                  className="whoWeAre__accordionHeader"
+                  onClick={() => toggleAccordion(index)}
+                  aria-expanded={activeIndex === index}
+                  aria-controls={`accordion-content-${index}`}
+                >
+                  <span className="whoWeAre__accordionTitle">{item.title}</span>
+                  {activeIndex === index ? (
+                    <FaMinus className="whoWeAre__accordionIcon" />
+                  ) : (
+                    <FaPlus className="whoWeAre__accordionIcon" />
+                  )}
+                </button>
                 
-                {activeIndex === index && (
-                  <div className="accordion-content">
+                <div
+                  id={`accordion-content-${index}`}
+                  className="whoWeAre__accordionContent"
+                  style={{
+                    maxHeight: activeIndex === index ? '200px' : '0',
+                    opacity: activeIndex === index ? '1' : '0'
+                  }}
+                >
+                  <div className="whoWeAre__accordionContentInner">
                     {item.content}
                   </div>
-                )}
+                </div>
               </div>
             ))}
           </div>
 
-          <button className="who-btn">
-            Learn more
+          <button className="whoWeAre__ctaButton">
+            <span className="whoWeAre__ctaText">Learn more</span>
+            <svg className="whoWeAre__ctaIcon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
           </button>
         </div>
 
-        {/* Right: Image */}
-        <div className="who-right">
-          <div className="image-wrapper">
-            <img 
-              src={imgSrc} 
-              alt="Professional cleaning team" 
-              loading="lazy"
-              decoding="async"
-            />
-            <div className="image-overlay"></div>
-            <div className="image-highlight"></div>
-          </div>
+        {/* Image Section */}
+        <div className="whoWeAre__imageWrapper">
+          <img 
+            src={imgSrc} 
+            alt="Professional cleaning team" 
+            className="whoWeAre__image"
+            loading="lazy"
+            decoding="async"
+            width="600"
+            height="800"
+          />
+          <div className="whoWeAre__imageOverlay"></div>
+          <div className="whoWeAre__imageHighlight"></div>
         </div>
       </div>
     </section>
